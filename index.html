@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Poster Maker</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; }
+        #poster {
+            width: 350px;
+            height: 450px;
+            border: 2px dashed #999;
+            position: relative;
+            margin: 20px auto;
+            background-size: cover;
+            background-position: center;
+        }
+        #photoPreview {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            width: 120px;
+            height: 150px;
+            background: #ddd;
+            border: 2px solid #000;
+            object-fit: cover;
+        }
+        #nameText {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Poster Maker – Upload & Edit</h2>
+
+<label>Select Photo:</label><br>
+<input type="file" id="photoInput"><br><br>
+
+<label>Enter Name:</label><br>
+<input type="text" id="nameInput"><br><br>
+
+<button onclick="downloadPoster()">Download Poster</button>
+
+<div id="poster">
+    <img id="photoPreview">
+    <div id="nameText">Your Name Here</div>
+</div>
+
+<script>
+document.getElementById("photoInput").addEventListener("change", function() {
+    const file = this.files[0];
+    document.getElementById("photoPreview").src = URL.createObjectURL(file);
+});
+
+document.getElementById("nameInput").addEventListener("input", function() {
+    document.getElementById("nameText").innerText = this.value;
+});
+
+function downloadPoster() {
+    html2canvas(document.getElementById("poster")).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "poster.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+</body>
+</html>
